@@ -1,4 +1,11 @@
+# Node modules
+node_modules/
+
+# Environment variables
 .env
+
+# Optional config files
 eslint.config.js
+
+# Optional lock file
 package-lock.json
-node-modules
