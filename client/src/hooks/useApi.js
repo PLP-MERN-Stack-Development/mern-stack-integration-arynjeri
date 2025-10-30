@@ -1,17 +1,28 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
+// src/hooks/useApi.js
+import { useCallback, useState } from 'react';
 
-export default function useApi(url) {
+export const useApi = (serviceFn) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios.get(url)
-      .then(res => setData(res.data))
-      .catch(err => setError(err))
-      .finally(() => setLoading(false));
-  }, [url]);
+  const execute = useCallback(
+    async (...args) => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await serviceFn(...args);
+        setData(res);
+        return res;
+      } catch (err) {
+        setError(err.response?.data?.message || err.message);
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [serviceFn]
+  );
 
-  return { data, loading, error };
-}
+  return { data, loading, error, execute };
+};
