@@ -1,78 +1,219 @@
-# MERN Stack Integration Assignment
+# MERN Stack Blog Platform
 
-This assignment focuses on building a full-stack MERN (MongoDB, Express.js, React.js, Node.js) application that demonstrates seamless integration between front-end and back-end components.
+A full-featured blog platform built with the MERN (MongoDB, Express.js, React.js, Node.js) stack, featuring user authentication, post management, category filtering, and file uploads.
 
-## Assignment Overview
+## 🌐 Live Demo
 
-You will build a blog application with the following features:
-1. RESTful API with Express.js and MongoDB
-2. React front-end with component architecture
-3. Full CRUD functionality for blog posts
-4. User authentication and authorization
-5. Advanced features like image uploads and comments
+- Frontend: [Add your frontend deployment link here]
+- Backend API: [Add your backend API link here]
 
-## Project Structure
+## ✨ Key Features
+
+- 🔐 User Authentication System
+  - Secure registration and login
+  - Protected routes for authenticated users
+  - JWT-based authentication
+- 📝 Blog Post Management
+  - Create, read, update, and delete posts
+  - Rich text editing capabilities
+  - Image upload support
+- 🏷️ Category System
+  - Filter posts by categories
+  - Category management
+- 🔍 Search Functionality
+  - Search posts by title or content
+- 📱 Responsive Design
+  - Mobile-friendly interface
+  - Consistent user experience across devices
+- ⚡ Performance Optimized
+  - Fast page loading
+  - Efficient data fetching
+
+## 🏗️ Project Structure
 
 ```
-mern-blog/
-├── client/                 # React front-end
-│   ├── public/             # Static files
-│   ├── src/                # React source code
-│   │   ├── components/     # Reusable components
-│   │   ├── pages/          # Page components
-│   │   ├── hooks/          # Custom React hooks
-│   │   ├── services/       # API services
-│   │   ├── context/        # React context providers
-│   │   └── App.jsx         # Main application component
-│   └── package.json        # Client dependencies
-├── server/                 # Express.js back-end
-│   ├── config/             # Configuration files
-│   ├── controllers/        # Route controllers
-│   ├── models/             # Mongoose models
-│   ├── routes/             # API routes
-│   ├── middleware/         # Custom middleware
-│   ├── utils/              # Utility functions
-│   ├── server.js           # Main server file
-│   └── package.json        # Server dependencies
-└── README.md               # Project documentation
+├── client/                 # Frontend directory
+│   ├── src/
+│   │   ├── components/     # Reusable UI components
+│   │   │   ├── CategoryFilter.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Pagination.jsx
+│   │   │   ├── PostForm.jsx
+│   │   │   └── ProtectedRoute.jsx
+│   │   ├── context/       # Context providers
+│   │   │   └── AuthContext.jsx
+│   │   ├── hooks/         # Custom React hooks
+│   │   │   └── useApi.js
+│   │   ├── layout/        # Layout components
+│   │   │   └── DashboardLayout.jsx
+│   │   ├── pages/         # Page components
+│   │   │   ├── CreateEditPostPage.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── PostDetailPage.jsx
+│   │   │   ├── PostListPage.jsx
+│   │   │   └── Register.jsx
+│   │   ├── services/      # API services
+│   │   │   └── api.js
+│   │   └── utils/         # Utility functions
+│   │       └── fileUpload.js
+│   └── vite.config.js     # Vite configuration
+├── server/                # Backend directory
+│   ├── config/           # Configuration
+│   │   └── db.js        # Database configuration
+│   ├── middleware/      # Custom middleware
+│   │   ├── authMiddleware.js
+│   │   └── errorMiddleware.js
+│   ├── models/          # MongoDB models
+│   │   ├── Category.js
+│   │   ├── Post.js
+│   │   └── User.js
+│   ├── routes/          # API routes
+│   │   ├── auth.js
+│   │   ├── categories.js
+│   │   ├── posts.js
+│   │   └── upload.js
+│   └── server.js        # Main server file
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
-1. Accept the GitHub Classroom assignment invitation
-2. Clone your personal repository that was created by GitHub Classroom
-3. Follow the setup instructions in the `Week4-Assignment.md` file
-4. Complete the tasks outlined in the assignment
-
-## Files Included
-
-- `Week4-Assignment.md`: Detailed assignment instructions
-- Starter code for both client and server:
-  - Basic project structure
-  - Configuration files
-  - Sample models and components
-
-## Requirements
-
-- Node.js (v18 or higher)
-- MongoDB (local installation or Atlas account)
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB (local or Atlas)
 - npm or yarn
-- Git
 
-## Submission
+### Installation & Setup
 
-Your work will be automatically submitted when you push to your GitHub Classroom repository. Make sure to:
+1. Clone the repository
+```bash
+git clone [repository-url]
+cd mern-stack-blog
+```
 
-1. Complete both the client and server portions of the application
-2. Implement all required API endpoints
-3. Create the necessary React components and hooks
-4. Document your API and setup process in the README.md
-5. Include screenshots of your working application
+2. Backend Setup
+```bash
+# Navigate to server directory
+cd server
 
-## Resources
+# Install dependencies
+npm install
 
+# Create .env file with the following variables
+# MONGODB_URI=your_mongodb_connection_string
+# JWT_SECRET=your_jwt_secret_key
+# PORT=5000
+
+# Start the server
+npm start
+```
+
+3. Frontend Setup
+```bash
+# Navigate to client directory
+cd client
+
+# Install dependencies
+npm install
+
+# Create .env file
+# VITE_API_URL=http://localhost:5000/api
+
+# Start the development server
+npm run dev
+```
+
+The application will be available at `http://localhost:5173`
+
+## 📚 API Documentation
+
+### Authentication Endpoints
+
+#### `POST /api/auth/register`
+- Register a new user
+- Body: `{ username, email, password }`
+
+#### `POST /api/auth/login`
+- Login user
+- Body: `{ email, password }`
+- Returns: JWT token
+
+### Posts Endpoints
+
+#### `GET /api/posts`
+- Get all posts
+- Query params:
+  - `page`: Page number
+  - `limit`: Posts per page
+  - `category`: Filter by category
+  - `search`: Search term
+
+#### `GET /api/posts/:id`
+- Get single post by ID
+
+#### `POST /api/posts`
+- Create new post
+- Requires authentication
+- Body: `{ title, content, category, image }`
+
+#### `PUT /api/posts/:id`
+- Update post
+- Requires authentication
+- Body: `{ title, content, category, image }`
+
+#### `DELETE /api/posts/:id`
+- Delete post
+- Requires authentication
+
+### Categories Endpoints
+
+#### `GET /api/categories`
+- Get all categories
+
+#### `POST /api/categories`
+- Create new category
+- Requires authentication
+- Body: `{ name }`
+
+### File Upload
+
+#### `POST /api/upload`
+- Upload file
+- Requires authentication
+- Form data: `file`
+
+## 🔧 Tech Stack
+
+### Frontend
+- React 18 with Vite
+- React Router v6
+- Context API for state management
+- Axios for API requests
+- Modern CSS with Flexbox/Grid
+
+### Backend
+- Node.js & Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- Express Middleware
+- File Upload handling
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📚 Resources
+
+- [React Documentation](https://react.dev/)
+- [Node.js Documentation](https://nodejs.org/docs)
 - [MongoDB Documentation](https://docs.mongodb.com/)
 - [Express.js Documentation](https://expressjs.com/)
-- [React Documentation](https://react.dev/)
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [Mongoose Documentation](https://mongoosejs.com/docs/) 
+- [Mongoose Documentation](https://mongoosejs.com/docs/)
