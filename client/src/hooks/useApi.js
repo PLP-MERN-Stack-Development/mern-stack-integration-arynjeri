@@ -1,28 +1,29 @@
 // src/hooks/useApi.js
-import { useCallback, useState } from 'react';
+import { useCallback, useState } from "react";
 
-export const useApi = (serviceFn) => {
+export function useApi(apiFunc) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const execute = useCallback(
-    async (...args) => {
+    async (...params) => {
       setLoading(true);
       setError(null);
+
       try {
-        const res = await serviceFn(...args);
-        setData(res);
-        return res;
+        const response = await apiFunc(...params);
+        setData(response);
+        return response;
       } catch (err) {
-        setError(err.response?.data?.message || err.message);
+        setError(err?.response?.data?.message || err.message);
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    [serviceFn]
+    [apiFunc]
   );
 
   return { data, loading, error, execute };
-};
+}

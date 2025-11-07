@@ -54,6 +54,7 @@ router.post(
     body('content').notEmpty().withMessage('Content is required'),
     body('category').notEmpty().withMessage('Category is required'),
   ],
+
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -73,32 +74,7 @@ router.post(
       const savedPost = await newPost.save();
       res.status(201).json(savedPost);
     } catch (error) {
-      res.status(500).json({ message: error.message });
-    }
-  }
-);
-
-// ✅ UPDATE post by slug
-router.put(
-  '/:slug',
-  protect,
-  upload.single('featuredImage'),
-  async (req, res) => {
-    try {
-      const post = await Post.findOne({ slug: req.params.slug });
-      if (!post) return res.status(404).json({ message: 'Post not found' });
-
-      post.title = req.body.title || post.title;
-      post.content = req.body.content || post.content;
-      post.category = req.body.category || post.category;
-      post.excerpt = req.body.excerpt || post.excerpt;
-      post.tags = req.body.tags ? req.body.tags.split(',').map(tag => tag.trim()) : post.tags;
-      post.isPublished = req.body.isPublished ?? post.isPublished;
-      if (req.file) post.featuredImage = `/uploads/${req.file.filename}`;
-
-      const updated = await post.save();
-      res.json(updated);
-    } catch (error) {
+      console.log("❌ Create post error:", error);
       res.status(500).json({ message: error.message });
     }
   }

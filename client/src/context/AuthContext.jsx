@@ -26,7 +26,6 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (payload) => {
     const data = await authService.register(payload);
-    setUser(data.user);
     navigate('/');
   };
 
